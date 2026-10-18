@@ -1,0 +1,510 @@
+
+<!DOCTYPE html>
+
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thiệp 20/10 - Bui Bao Ngoc</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --pink: #f7b8cb;
+  --dark-pink: #ad426d;
+  --cream: #fff9f5;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Segoe UI", sans-serif;
+  color: #85405c;
+  background:
+    radial-gradient(circle at 15% 15%, #fff 0 3px, transparent 4px),
+    linear-gradient(135deg, #fff1f5, #f9d8e5, #fff7f0);
+  background-size: 45px 45px, auto;
+  overflow-x: hidden;
+}
+
+button, input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.screen {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px 14px;
+}
+
+.login {
+  width: min(420px, 100%);
+  padding: 35px 25px;
+  background: rgba(255,255,255,.9);
+  border: 2px solid #f3c3d4;
+  border-radius: 28px;
+  box-shadow: 0 15px 45px #b65a7b26;
+  text-align: center;
+  animation: appear .8s ease both;
+}
+
+.flower {
+  font-size: 52px;
+  animation: float 3s ease-in-out infinite;
+}
+
+h1, h2, p {
+  overflow-wrap: anywhere;
+}
+
+.login h1 {
+  font-family: Georgia, serif;
+  font-size: clamp(25px, 6vw, 34px);
+  color: var(--dark-pink);
+  margin: 14px 0;
+}
+
+.login p {
+  line-height: 1.7;
+}
+
+input {
+  width: 100%;
+  padding: 14px;
+  margin: 12px 0;
+  border: 1px solid #eab3c8;
+  border-radius: 14px;
+  outline-color: #c85d88;
+  background: #fffafd;
+}
+
+.btn {
+  border: none;
+  padding: 12px 20px;
+  border-radius: 999px;
+  color: white;
+  background: linear-gradient(135deg, #d66e97, #a94370);
+  box-shadow: 0 5px 15px #a9437033;
+  transition: transform .2s;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.error {
+  min-height: 24px;
+  color: #c03955;
+  font-size: 14px;
+}
+
+#gift {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  width: 100%;
+  padding: 28px 12px;
+}
+
+#gift.visible {
+  display: flex;
+}
+
+.intro {
+  text-align: center;
+  color: #a84368;
+  animation: appear .8s ease both;
+}
+
+.intro h2 {
+  margin: 8px 0;
+  font-family: Georgia, serif;
+}
+
+.card-stage {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  perspective: 1200px;
+}
+
+.card {
+  width: min(680px, 100%);
+  position: relative;
+  padding: clamp(24px, 5vw, 48px);
+  overflow: hidden;
+  border: 3px double #e9a4bd;
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at top left, #ffe5ed, transparent 35%),
+    linear-gradient(145deg, #fffefa, #fff0f5);
+  box-shadow: 0 20px 60px #a9437030;
+  transform-origin: center center;
+}
+
+.card::before,
+.card::after {
+  content: "🌸";
+  position: absolute;
+  font-size: clamp(35px, 7vw, 65px);
+  opacity: .65;
+  pointer-events: none;
+}
+
+.card::before {
+  top: 10px;
+  left: 12px;
+}
+
+.card::after {
+  right: 12px;
+  bottom: 10px;
+}
+
+.card.zoom-out {
+  animation: zoomOut 1.5s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.line {
+  opacity: 0;
+  transform: translateX(-32px);
+  filter: blur(4px);
+}
+
+.line.show {
+  animation: reveal .85s ease forwards;
+}
+
+.card h1 {
+  text-align: center;
+  font-family: Georgia, serif;
+  font-size: clamp(27px, 5vw, 43px);
+  line-height: 1.25;
+  color: #b44470;
+  margin: 10px 0 22px;
+}
+
+.card h2 {
+  text-align: center;
+  font-size: clamp(17px, 3vw, 22px);
+  line-height: 1.6;
+  color: #a94d70;
+  margin: 12px 0 24px;
+}
+
+.card p {
+  font-size: clamp(15px, 2.5vw, 18px);
+  line-height: 1.95;
+  text-align: justify;
+  margin: 12px 0;
+}
+
+.card .center {
+  text-align: center;
+}
+
+.signature {
+  margin-top: 28px;
+  text-align: right;
+  color: #ad426d;
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: clamp(21px, 4vw, 28px);
+}
+
+.card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.secondary {
+  background: #fff;
+  color: #a84368;
+  border: 1px solid #df9bb4;
+  box-shadow: none;
+}
+
+.heart {
+  position: fixed;
+  bottom: -40px;
+  pointer-events: none;
+  z-index: 10;
+  animation: heartRise linear forwards;
+}
+
+@keyframes appear {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes reveal {
+  0% { opacity: 0; transform: translateX(-32px); filter: blur(4px); }
+  100% { opacity: 1; transform: translateX(0); filter: blur(0); }
+}
+
+@keyframes zoomOut {
+  from { transform: scale(1); }
+  to { transform: scale(.88); }
+}
+
+@keyframes heartRise {
+  from { transform: translateY(0) rotate(0); opacity: 0; }
+  15% { opacity: .85; }
+  to { transform: translateY(-110vh) rotate(30deg); opacity: 0; }
+}
+
+@media (max-width: 480px) {
+  .card { padding: 25px 20px; }
+  .card p { text-align: left; }
+  .card.zoom-out { animation-name: zoomOutMobile; }
+}
+
+@keyframes zoomOutMobile {
+  from { transform: scale(1); }
+  to { transform: scale(.96); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<main class="screen" id="loginScreen">
+  <section class="login">
+    <div class="flower">🌸 💗 🌷</div>
+    <h1>Một món quà nhỏ</h1>
+    <p>
+      Dành tặng cô giáo và những người phụ nữ
+      em yêu quý nhân ngày 20/10.
+    </p>
+    <p>💌 Hãy nhập mật khẩu để mở thiệp nhé!</p>
+
+    <form id="passwordForm">
+      <input
+        id="password"
+        type="password"
+        placeholder="Nhập mật khẩu..."
+        aria-label="Mật khẩu mở thiệp"
+        autocomplete="off"
+        required
+      >
+      <button class="btn" type="submit">Mở thiệp 💖</button>
+      <p class="error" id="error" aria-live="polite"></p>
+    </form>
+  </section>
+</main>
+
+<section id="gift" aria-label="Thiệp chúc mừng 20 tháng 10">
+  <header class="intro">
+    <div style="font-size:34px">🌷 💗 🌸 💗 🌷</div>
+    <h2>Một lời chúc từ trái tim</h2>
+    <p>Hãy cùng đón nhận những lời yêu thương!</p>
+  </header>
+
+  <div class="card-stage">
+    <article class="card" id="card">
+      <div class="line center">🌸 🌷 🌸</div>
+
+      <h1 class="line">CHÚC MỪNG NGÀY 20/10</h1>
+
+      <h2 class="line">
+        Kính tặng cô giáo và những người phụ nữ em yêu quý!
+      </h2>
+
+      <p class="line">
+        Nhân ngày Phụ nữ Việt Nam 20/10, em xin gửi đến cô
+        giáo và tất cả những người phụ nữ em yêu quý lời chúc
+        tốt đẹp và chân thành nhất.
+      </p>
+
+      <p class="line">
+        Chúc mọi người luôn mạnh khỏe, xinh đẹp, vui vẻ và
+        hạnh phúc. Mong rằng mỗi ngày đều ngập tràn tiếng cười,
+        tình yêu thương và những điều may mắn.
+      </p>
+
+      <p class="line">
+        Em xin cảm ơn cô giáo vì đã tận tình dạy dỗ, truyền đạt
+        kiến thức và dành cho chúng em sự quan tâm, yêu thương.
+        Kính chúc cô luôn mạnh khỏe, thành công và mãi giữ nụ
+        cười tươi trên môi.
+      </p>
+
+      <p class="line">
+        Cảm ơn những người phụ nữ thân yêu vì đã luôn quan tâm,
+        chăm sóc và mang đến cho em những điều tốt đẹp.
+        Chúc mọi người luôn rạng rỡ như những đóa hoa!
+      </p>
+
+      <p class="line center">
+        Chúc mừng ngày Phụ nữ Việt Nam 20/10! 💗
+      </p>
+
+      <div class="signature line">
+        Thân thương,<br>
+        Bui Bao Ngoc ♡
+      </div>
+
+      <div class="line center" style="margin-top:24px">
+        🌹 💐 🌹
+      </div>
+    </article>
+  </div>
+
+  <div class="card-actions">
+    <button class="btn" id="replayBtn">Xem lại lời chúc ↻</button>
+    <button class="btn secondary" id="closeBtn">Đóng thiệp</button>
+  </div>
+</section>
+
+<script>
+const CORRECT_PASSWORD = "20/10vuive";
+
+const loginScreen = document.getElementById("loginScreen");
+const gift = document.getElementById("gift");
+const passwordForm = document.getElementById("passwordForm");
+const passwordInput = document.getElementById("password");
+const error = document.getElementById("error");
+const card = document.getElementById("card");
+const lines = Array.from(document.querySelectorAll(".line"));
+
+let animationTimers = [];
+let heartTimer = null;
+
+function clearAnimations() {
+  animationTimers.forEach(clearTimeout);
+  animationTimers = [];
+  clearInterval(heartTimer);
+  heartTimer = null;
+}
+
+function showLine(line, delay) {
+  const timer = setTimeout(() => {
+    line.classList.add("show");
+  }, delay);
+  animationTimers.push(timer);
+}
+
+function makeHeart() {
+  const heart = document.createElement("span");
+  heart.className = "heart";
+  heart.textContent = ["💗", "💕", "♡", "🌸", "💖"][
+    Math.floor(Math.random() * 5)
+  ];
+
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = (16 + Math.random() * 18) + "px";
+  heart.style.animationDuration = (4 + Math.random() * 4) + "s";
+
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 8500);
+}
+
+function playGreeting() {
+  clearAnimations();
+
+  lines.forEach(line => {
+    line.classList.remove("show");
+  });
+
+  card.classList.remove("zoom-out");
+
+  // Chờ trình duyệt cập nhật trạng thái trước khi chạy lại.
+  void card.offsetWidth;
+
+  // Hiện từng dòng theo thứ tự từ trên xuống dưới.
+  // Mỗi dòng xuất hiện từ trái sang phải.
+  const lineDelay = 1100;
+
+  lines.forEach((line, index) => {
+    showLine(line, 400 + index * lineDelay);
+  });
+
+  // Khi dòng cuối cùng hiện xong, thu nhỏ toàn bộ thiệp.
+  const finalDelay = 400 + lines.length * lineDelay + 300;
+
+  const zoomTimer = setTimeout(() => {
+    card.classList.add("zoom-out");
+  }, finalDelay);
+
+  animationTimers.push(zoomTimer);
+
+  heartTimer = setInterval(makeHeart, 900);
+}
+
+passwordForm.addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  const enteredPassword = passwordInput.value.trim();
+
+  if (enteredPassword === CORRECT_PASSWORD) {
+    error.textContent = "";
+    loginScreen.style.display = "none";
+    gift.classList.add("visible");
+    playGreeting();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  } else {
+    error.textContent = "Mật khẩu chưa đúng. Em hãy thử lại nhé!";
+    passwordInput.value = "";
+    passwordInput.focus();
+  }
+});
+
+
+  
+
+  if (passwordInput.value === CORRECT_PASSWORD) {
+    error.textContent = "";
+    loginScreen.style.display = "none";
+    gift.classList.add("visible");
+    playGreeting();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  } else {
+    error.textContent = "Mật khẩu chưa đúng. hãy thử lại nhé!";
+    passwordInput.value = "";
+    passwordInput.focus();
+  }
+});
+
+document.getElementById("replayBtn").addEventListener("click", () => {
+  playGreeting();
+});
+
+document.getElementById("closeBtn").addEventListener("click", () => {
+  clearAnimations();
+  gift.classList.remove("visible");
+  loginScreen.style.display = "flex";
+  passwordInput.value = "";
+  passwordInput.focus();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+</script>
+
+</body>
+</html>
+
